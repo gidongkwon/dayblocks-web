@@ -1,16 +1,17 @@
 <script lang="ts">
-	import { intlFormat, getDate, getDay } from 'date-fns';
+	import { intlFormat, getDate, getDay, isToday } from 'date-fns';
 	import { config } from '../config/store';
 	import { range } from '$lib/utils/array';
 	import Dayblock from './dayblock.svelte';
 
 	export let date: Date;
 
-	const dayName = intlFormat(date, { weekday: 'short' }, { locale: $config.locale });
-	const dayDate = getDate(date);
+	$: dayName = intlFormat(date, { weekday: 'short' }, { locale: $config.locale });
+	$: dayDate = getDate(date);
+	$: today = isToday(date);
 </script>
 
-<section class="day">
+<section class="day" data-today={today}>
 	<header>
 		<span class="name">
 			{dayName}
@@ -21,12 +22,12 @@
 	</header>
 	<main>
 		{#each range(0, 6) as i}
-			<Dayblock index={i} />
+			<Dayblock index={i} {date} />
 		{/each}
 	</main>
 </section>
 
-<style>
+<style lang="postcss">
 	.day:not(:last-child) {
 		border-right: 1px solid var(--slate-4);
 	}
@@ -34,6 +35,12 @@
 	.day {
 		display: flex;
 		flex-direction: column;
+
+		&[data-today='true'] {
+			& header {
+				color: var(--blue-10);
+			}
+		}
 	}
 
 	header {

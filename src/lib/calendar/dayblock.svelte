@@ -1,11 +1,31 @@
 <script lang="ts">
+	import { placedTasks } from './store';
+	import type { ChangeEventHandler } from 'svelte/elements';
+
+	export let date: Date;
 	export let index: number;
 
 	const placeholder = ['오전1', '오전2', '오후1', '오후2', '저녁1', '저녁2'];
+
+	$: key = date.toDateString();
+	$: title = $placedTasks.get(key)?.get(index)?.title ?? '';
+
+	const onTitleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+		const title = e.currentTarget.value;
+
+		const existing = $placedTasks.get(key);
+		if (!existing) {
+			$placedTasks.set(key, new Map());
+		}
+
+		const target = $placedTasks.get(key)!;
+		target.set(index, { title, tasks: [...(target.get(index)?.tasks ?? [])] });
+		$placedTasks = $placedTasks;
+	};
 </script>
 
 <div class="dayblock" data-index={index}>
-	<input class="title" placeholder={placeholder[index]} />
+	<input class="title" placeholder={placeholder[index]} value={title} on:change={onTitleChange} />
 </div>
 
 <style lang="postcss">

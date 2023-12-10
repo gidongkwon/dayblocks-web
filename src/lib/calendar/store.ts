@@ -2,8 +2,10 @@ import { persisted } from 'svelte-persisted-store';
 import * as devalue from 'devalue';
 
 export interface Dayblock {
-	date: Date;
+	title: string;
 	tasks: string[];
 }
 
-export const config = persisted<Dayblock[]>('config', [], { serializer: devalue });
+export const placedTasks = persisted<Map<string, Map<number, Dayblock>>>('placedTasks', new Map(), {
+	serializer: devalue,
+});

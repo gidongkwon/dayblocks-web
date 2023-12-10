@@ -1,9 +1,12 @@
 <script lang="ts">
+	import { range } from '$lib/utils/array';
 	import WeekDay from './week-day.svelte';
 	import { startOfWeek, addDays } from 'date-fns';
 
-	let startOfWeekDate = startOfWeek(new Date());
-	const weekDates = [...Array(7)].map((_, index) => addDays(startOfWeekDate, index));
+	export let referenceDate: Date;
+
+	$: startOfWeekDate = startOfWeek(referenceDate);
+	$: weekDates = range(0, 7).map((index) => addDays(startOfWeekDate, index));
 </script>
 
 <main>

@@ -5,17 +5,35 @@
 	import type { UniversityLectureTask } from '$lib/task/types';
 	import { parseEverytimeXML } from '$lib/importer/everytime';
 	import TodoList from '$lib/task/task-list.svelte';
-	import { MoonIcon, SunIcon } from 'lucide-svelte';
+	import { ChevronLeftIcon, ChevronRightIcon, MoonIcon, SunIcon } from 'lucide-svelte';
 	import ThemeSwitcher from './theme-switcher.svelte';
+	import { addWeeks, format, startOfDay } from 'date-fns';
 
 	// let showImporterModal = false;
 	// function openImpoter() {
 	// 	showImporterModal = true;
 	// }
+
+	let referenceDate = startOfDay(new Date());
+
+	function showPrevWeek() {
+		referenceDate = addWeeks(referenceDate, -1);
+	}
+
+	function showNextWeek() {
+		referenceDate = addWeeks(referenceDate, 1);
+	}
+
+	$: yearMonth = format(referenceDate, 'yyyy. MM');
 </script>
 
 <div class="container">
 	<header>
+		<nav>
+			<button on:click={showPrevWeek}><ChevronLeftIcon /></button>
+			<p>{yearMonth}</p>
+			<button on:click={showNextWeek}><ChevronRightIcon /></button>
+		</nav>
 		<!-- <button on:click={openImpoter}>가져오기</button> -->
 		<ThemeSwitcher />
 	</header>
@@ -24,7 +42,7 @@
 		<TodoList />
 	</aside>
 	<main>
-		<WeekCalendar />
+		<WeekCalendar {referenceDate} />
 	</main>
 	<!-- {#if showImporterModal}
 		<Modal bind:showModal={showImporterModal}>
@@ -49,6 +67,23 @@
 	header {
 		grid-area: header;
 		padding: 1em;
+		display: flex;
+	}
+
+	nav {
+		display: flex;
+		gap: var(--space-3);
+		align-items: center;
+
+		button {
+			background-color: var(--background);
+			color: var(--text);
+		}
+
+		p {
+			font-size: var(--size-9);
+			font-weight: bold;
+		}
 	}
 
 	main {
