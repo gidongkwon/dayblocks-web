@@ -1,0 +1,7 @@
+@import '$lib/styles/fonts.css';
+
+:root {
+  --weights-regular: 400;
+  --weights-bold: 700;
+  --weights-black: 900;
+}

@@ -1,0 +1,41 @@
+@import '$lib/styles/index.css';
+
+:root {
+	font-family: 'Pretendard', 'Pretendard JP', sans-serif, system-ui;
+	font-variant-numeric: tabular-nums;
+	font-weight: var(--weights-regular);
+	font-size: 62.5%;
+	color: var(--text);
+	display: flex;
+	height: 100%;
+}
+.dark {
+	color: var(--text);
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	margin: 0;
+	background-color: var(--background);
+}
+
+* {
+	scrollbar-color: var(--mauve-a6);
+
+	&:lang(ko) {
+		word-break: keep-all;
+	}
+}
+*::-webkit-scrollbar {
+	width: 1.6rem;
+	height: 1.6rem;
+	background-color: transparent;
+}
+*::-webkit-scrollbar-thumb {
+	background-color: var(--mauve-a6);
+}
+*::-webkit-scrollbar-thumb:hover {
+	background-color: var(--mauve-a7);
+}
