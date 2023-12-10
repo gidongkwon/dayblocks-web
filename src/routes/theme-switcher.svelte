@@ -3,16 +3,11 @@
 	import { browser } from '$app/environment';
 	import { Moon, SunMedium } from 'lucide-svelte';
 
-	const themes = ['light', 'dark', 'system'];
+	const themes = ['light', 'dark'];
 	let currentTheme: string;
 
 	function toggleTheme(theme: string) {
 		if (!themes.includes(theme)) return;
-
-		const bodyClassList = window.document.body.classList;
-		if (bodyClassList.contains(theme)) {
-			theme = 'system';
-		}
 
 		window.localStorage.setItem('theme', theme);
 		const oneYear = 60 * 60 * 24 * 365;
