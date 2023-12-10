@@ -2,6 +2,7 @@
 	import { intlFormat, getDate, getDay } from 'date-fns';
 	import { config } from '../config/store';
 	import { range } from '$lib/utils/array';
+	import Dayblock from './dayblock.svelte';
 
 	export let date: Date;
 
@@ -9,7 +10,7 @@
 	const dayDate = getDate(date);
 </script>
 
-<section>
+<section class="day">
 	<header>
 		<span class="name">
 			{dayName}
@@ -20,14 +21,19 @@
 	</header>
 	<main>
 		{#each range(0, 6) as i}
-			<div class="dayblock"></div>
+			<Dayblock index={i} />
 		{/each}
 	</main>
 </section>
 
 <style>
-	section:not(:last-child) {
+	.day:not(:last-child) {
 		border-right: 1px solid var(--slate-4);
+	}
+
+	.day {
+		display: flex;
+		flex-direction: column;
 	}
 
 	header {
@@ -41,17 +47,12 @@
 		font-weight: bold;
 	}
 
-	.dayblock {
-		/* position: relative; */
-		width: calc(100% - 1.6rem - 2px);
-		padding: 0.8rem;
-		border: 1px solid;
-	}
-
 	main {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-		height: 100%;
+		flex: 1;
+		padding: var(--space-3);
+		gap: var(--space-3);
 	}
 </style>

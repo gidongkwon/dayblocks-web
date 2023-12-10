@@ -5,38 +5,28 @@
 	import type { UniversityLectureTask } from '$lib/task/types';
 	import { parseEverytimeXML } from '$lib/importer/everytime';
 	import TodoList from '$lib/task/task-list.svelte';
+	import { MoonIcon, SunIcon } from 'lucide-svelte';
+	import ThemeSwitcher from './theme-switcher.svelte';
 
-	let showImporterModal = false;
-	function openImpoter() {
-		showImporterModal = true;
-	}
-
-	function toggleTheme() {
-		window.document.body.classList.toggle('dark');
-	}
-
-	let timeTableXMLText: string;
-	let timeTable: UniversityLectureTask[] = [];
-	function handleEverytimeSubmit() {
-		timeTable = parseEverytimeXML(timeTableXMLText);
-		showImporterModal = false;
-	}
+	// let showImporterModal = false;
+	// function openImpoter() {
+	// 	showImporterModal = true;
+	// }
 </script>
 
 <div class="container">
 	<header>
-		<button on:click={openImpoter}>가져오기</button>
-		<button on:click={toggleTheme}>테마 토글</button>
+		<!-- <button on:click={openImpoter}>가져오기</button> -->
+		<ThemeSwitcher />
 	</header>
-	<main>
-		<WeekCalendar {timeTable} />
-	</main>
 	<aside>
-		<h2>할 일</h2>
+		<h1>할 일</h1>
 		<TodoList />
-		<button class="add-button">추가</button>
 	</aside>
-	{#if showImporterModal}
+	<main>
+		<WeekCalendar />
+	</main>
+	<!-- {#if showImporterModal}
 		<Modal bind:showModal={showImporterModal}>
 			<span slot="title">에브리타임 시간표</span>
 			<form class="everytime-form" on:submit|preventDefault={handleEverytimeSubmit}>
@@ -44,17 +34,17 @@
 				<button type="submit">가져오기</button>
 			</form>
 		</Modal>
-	{/if}
+	{/if} -->
 </div>
 
-<style>
+<style lang="postcss">
 	.container {
 		flex: 1 1 0;
 		display: grid;
 		grid-template:
-			'header   header' auto
-			'calendar todo' 1fr
-			/ 1fr 20rem;
+			'todo header' auto
+			'todo calendar' 1fr
+			/ 24rem 1fr;
 	}
 	header {
 		grid-area: header;
@@ -72,12 +62,16 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-1);
-		margin-right: var(--space-3);
+		margin: var(--space-3);
 		border-radius: var(--radius-1);
 		align-content: stretch;
+
+		h1 {
+			font-size: var(--size-9);
+		}
 	}
 
-	.everytime-form {
+	/* .everytime-form {
 		margin-top: var(--space-4);
 		display: flex;
 		flex-direction: column;
@@ -89,5 +83,5 @@
 		border-radius: 0.8rem;
 		width: 100%;
 		min-height: 8em;
-	}
+	} */
 </style>

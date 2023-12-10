@@ -1,8 +1,9 @@
 export interface Task {
+	id: string;
 	type: 'repetitive' | 'once';
 	title: string;
 	description: string;
-	due: Date;
+	due?: Date;
 	completion: Completion[];
 }
 
